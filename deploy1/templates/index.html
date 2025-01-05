@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+
+    <style>
+        /* Overall page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="range"], input[type="radio"] {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        output {
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .radio-group label {
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            label, button {
+                font-size: 14px;
+            }
+        }
+    </style>
+
+    <script>
+        // Function to update the displayed slider value
+        function updateSliderValue(sliderId, outputId) {
+            const slider = document.getElementById(sliderId);
+            const output = document.getElementById(outputId);
+            output.value = slider.value;
+        }
+
+        // Scroll to the result section after prediction
+        function scrollToResult() {
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Heart Disease Prediction</h1>
+
+        <form method="POST" action="/">
+            <!-- Age -->
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="range" id="age" name="age" min="20" max="100" step="1" value="50"
+                       oninput="updateSliderValue('age', 'age_output')" required>
+                <output id="age_output" for="age">50</output>
+            </div>
+
+            <!-- Sex -->
+            <div class="form-group radio-group">
+                <label for="sex_male">Male</label>
+                <input type="radio" id="sex_male" name="sex" value="1" required>
+                <label for="sex_female">Female</label>
+                <input type="radio" id="sex_female" name="sex" value="0" required>
+            </div>
+
+            <!-- Chest Pain Type -->
+            <div class="form-group">
+                <label for="cp">Chest Pain Type:</label>
+                <input type="range" id="cp" name="cp" min="0" max="3" step="1" value="1"
+                       oninput="updateSliderValue('cp', 'cp_output')" required>
+                <output id="cp_output" for="cp">1</output>
+            </div>
+
+            <!-- Resting Blood Pressure -->
+            <div class="form-group">
+                <label for="trestbps">Resting Blood Pressure (mm Hg):</label>
+                <input type="range" id="trestbps" name="trestbps" min="90" max="200" step="1" value="120"
+                       oninput="updateSliderValue('trestbps', 'trestbps_output')" required>
+                <output id="trestbps_output" for="trestbps">120</output>
+            </div>
+
+            <!-- Serum Cholestoral -->
+            <div class="form-group">
+                <label for="chol">Serum Cholestoral (mg/dl):</label>
+                <input type="range" id="chol" name="chol" min="100" max="600" step="1" value="200"
+                       oninput="updateSliderValue('chol', 'chol_output')" required>
+                <output id="chol_output" for="chol">200</output>
+            </div>
+
+            <!-- Fasting Blood Sugar -->
+            <div class="form-group radio-group">
+                <label for="fbs_yes">Yes</label>
+                <input type="radio" id="fbs_yes" name="fbs" value="1" required>
+                <label for="fbs_no">No</label>
+                <input type="radio" id="fbs_no" name="fbs" value="0" required>
+            </div>
+
+            <!-- Resting Electrocardiographic Results -->
+            <div class="form-group radio-group">
+                <label for="restecg_normal">Normal</label>
+                <input type="radio" id="restecg_normal" name="restecg" value="0" required>
+                <label for="restecg_abnormal">Abnormal</label>
+                <input type="radio" id="restecg_abnormal" name="restecg" value="1" required>
+            </div>
+
+            <!-- Maximum Heart Rate Achieved -->
+            <div class="form-group">
+                <label for="thalach">Maximum Heart Rate Achieved:</label>
+                <input type="range" id="thalach" name="thalach" min="60" max="220" step="1" value="150"
+                       oninput="updateSliderValue('thalach', 'thalach_output')" required>
+                <output id="thalach_output" for="thalach">150</output>
+            </div>
+
+            <!-- Exercise Induced Angina -->
+            <div class="form-group radio-group">
+                <label for="exang_yes">Yes</label>
+                <input type="radio" id="exang_yes" name="exang" value="1" required>
+                <label for="exang_no">No</label>
+                <input type="radio" id="exang_no" name="exang" value="0" required>
+            </div>
+
+            <!-- ST Depression Induced by Exercise -->
+            <div class="form-group">
+                <label for="oldpeak">ST Depression Induced by Exercise:</label>
+                <input type="range" id="oldpeak" name="oldpeak" min="0" max="6" step="0.1" value="1"
+                       oninput="updateSliderValue('oldpeak', 'oldpeak_output')" required>
+                <output id="oldpeak_output" for="oldpeak">1</output>
+            </div>
+
+            <!-- Slope of the Peak Exercise ST Segment -->
+            <div class="form-group">
+                <label for="slope">Slope of the Peak Exercise ST Segment:</label>
+                <input type="range" id="slope" name="slope" min="0" max="2" step="1" value="1"
+                       oninput="updateSliderValue('slope', 'slope_output')" required>
+                <output id="slope_output" for="slope">1</output>
+            </div>
+
+            <!-- Number of Major Vessels Colored by Fluoroscopy -->
+            <div class="form-group">
+                <label for="ca">Number of Major Vessels Colored by Fluoroscopy:</label>
+                <input type="range" id="ca" name="ca" min="0" max="3" step="1" value="0"
+                       oninput="updateSliderValue('ca', 'ca_output')" required>
+                <output id="ca_output" for="ca">0</output>
+            </div>
+
+            <!-- Thalassemia -->
+            <div class="form-group">
+                <label for="thal">Thalassemia:</label>
+                <input type="range" id="thal" name="thal" min="0" max="3" step="1" value="2"
+                       oninput="updateSliderValue('thal', 'thal_output')" required>
+                <output id="thal_output" for="thal">2</output>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" onclick="scrollToResult()">Predict</button>
+        </form>
+
+        <!-- Prediction Result -->
+        <div id="result">
+            <h2>{{ prediction or "Prediction will be shown here after clicking 'Predict'" }}</h2>
+        </div>
+    </div>
+
+</body>
+</html>
