@@ -53,8 +53,7 @@ pyseto
 python-dateutil
 python-multipart
 python-pptx
-pytz
-pywin32  # Windows-specific package
+pytz==2024.2  # Compatible version
 replit
 requests
 scikit-learn
@@ -81,4 +80,3 @@ websocket-client
 Werkzeug
 XlsxWriter
 yarl
-
