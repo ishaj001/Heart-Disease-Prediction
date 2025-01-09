@@ -7,11 +7,9 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-
-# Use relative path for model
+# Use relative path for model (make sure model is placed correctly in the 'models' directory)
 model_path = Path(__file__).parent / 'models' / 'heart_pred_model.pkl'
 model = joblib.load(model_path)
-
 
 # Define the column names that the model was trained on
 columns = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
@@ -53,4 +51,6 @@ def index():
     return render_template("index.html", prediction=result_message)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Ensure that the app runs on the correct host and port (Render uses $PORT)
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
+    app.run(host='0.0.0.0', port=port, debug=True)
